@@ -25,7 +25,8 @@ version := "1.0"
 // You can define other libraries as dependencies in your build like this:
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.0.1",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "org.tensorflow" % "tensorflow" % "1.8.0"
 )
 
 // Here, `libraryDependencies` is a set of dependencies, and by using `+=`,
