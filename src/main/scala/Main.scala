@@ -6,21 +6,23 @@ import org.tensorflow.{Graph, Session, Tensor}
 
 object Main extends App {
   val graph = loadTfModel("/tmp/saved_model_1/model_feed_forward.pb")
-//  predict(graph)
+  predict(graph)
 
   def predict(graph: Graph) = {
     val s = new Session(graph)
 
     // Shape/dimension of input
-    val inputDimension: Array[Long] = Array(1200).map(_.toLong)
+    val inputDimension: Array[Long] = Array(1, 1200).map(_.toLong) 
     // Input array that conforms the dimension above
-    val input = FloatBuffer.wrap(Array.range(0, 1200).map(_.toFloat))
+    val input: FloatBuffer = FloatBuffer.wrap(Array.range(0, 1200).map(_.toFloat))
     println(input)
 
     val x = Tensor.create(inputDimension, input)
+//    val x = Tensor.create(inputDimension, input)
 
     val y = s.runner().feed("joint_input", x).fetch("output_node0").run().get(0)
-    System.out.println(y.floatValue())
+    val res = y.copyTo(Array.ofDim[Float](1,1))
+    println(res(0)(0))
   }
 
   def loadTfModel(source: String): Graph = {
